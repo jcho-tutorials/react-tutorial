@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Todos from "./components/Todos"
+import Todos from "./components/Todos";
+import PropTypes from "prop-types";
 
-function App() {
-  let state = {
+class App extends Component {
+  state = {
     todos: [
       {
         id: 1,
@@ -23,11 +24,28 @@ function App() {
     ]
   }
 
-  return (
-    <div className="App">
-      <Todos todos={state.todos} />
-    </div>
-  );
+  // Toggle complete
+  markComplete = (id) => {
+    this.setState({ todos: this.state.todos.map(todo => {
+      if (todo.id=== id) {
+        todo.completed = !todo.completed
+      }
+      return todo;
+    }) })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Todos todos={this.state.todos} markComplete={this.markComplete} />
+      </div>
+    );
+  }
+}
+
+// PropTypes
+Todos.propTypes = {
+  todos: PropTypes.array.isRequired
 }
 
 export default App;
